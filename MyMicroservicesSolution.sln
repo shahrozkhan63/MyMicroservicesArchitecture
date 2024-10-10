@@ -22,19 +22,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Api", "OrderService.Api\OrderService.Api.csproj", "{04767C9A-25D4-442E-AA9F-8E5979296116}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Infrastructure", "OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{E49DC574-1EC5-4A8A-A1B9-0318C8211F58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Infrastructure", "OrderService.Infrastructure\OrderService.Infrastructure.csproj", "{E49DC574-1EC5-4A8A-A1B9-0318C8211F58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Domain", "OrderService.Domain\OrderService.Domain.csproj", "{B8A6034E-2F42-49AB-8C4A-6022F9D54D08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderService.Domain", "OrderService.Domain\OrderService.Domain.csproj", "{B8A6034E-2F42-49AB-8C4A-6022F9D54D08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{31E2638B-D3CE-431E-93D0-7E77A21D1CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{31E2638B-D3CE-431E-93D0-7E77A21D1CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "EventBus\EventBus.csproj", "{1B523086-A141-47B8-AF27-70B4F8BA3BB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "EventBus\EventBus.csproj", "{1B523086-A141-47B8-AF27-70B4F8BA3BB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{52659BB5-0292-4506-AABF-4A3E0EF9B371}"
 	ProjectSection(SolutionItems) = preProject
 		order-deployment.yaml = order-deployment.yaml
 		product-deployment.yaml = product-deployment.yaml
 		rabbitmq-deployment.yaml = rabbitmq-deployment.yaml
+		rabbitmq-service.yaml = rabbitmq-service.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{F2BAC44E-54FE-46FF-9213-A26A85910A33}"
@@ -44,11 +45,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		ci-pipeline.yml = ci-pipeline.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Api", "ProductService.Api\ProductService.Api.csproj", "{89C86E96-1200-4874-808F-433D066CBFBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Api", "ProductService.Api\ProductService.Api.csproj", "{89C86E96-1200-4874-808F-433D066CBFBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Infrastructure", "ProductService.Infrastructure\ProductService.Infrastructure.csproj", "{D37DFEFD-0A97-41DE-8971-367A9B5006F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Infrastructure", "ProductService.Infrastructure\ProductService.Infrastructure.csproj", "{D37DFEFD-0A97-41DE-8971-367A9B5006F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Domain", "ProductService.Domain\ProductService.Domain.csproj", "{FB6F7F1D-B919-4C96-BA11-80E986B85301}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService.Domain", "ProductService.Domain\ProductService.Domain.csproj", "{FB6F7F1D-B919-4C96-BA11-80E986B85301}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{B16594C2-DA23-4E6C-BCCF-54AD4A4BBF0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bitbucket", "bitbucket", "{BE699962-4E20-497A-8C4E-57FB961C4DCC}"
+	ProjectSection(SolutionItems) = preProject
+		bitbucket-pipelines.yml = bitbucket-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +96,10 @@ Global
 		{FB6F7F1D-B919-4C96-BA11-80E986B85301}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB6F7F1D-B919-4C96-BA11-80E986B85301}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB6F7F1D-B919-4C96-BA11-80E986B85301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B16594C2-DA23-4E6C-BCCF-54AD4A4BBF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16594C2-DA23-4E6C-BCCF-54AD4A4BBF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16594C2-DA23-4E6C-BCCF-54AD4A4BBF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16594C2-DA23-4E6C-BCCF-54AD4A4BBF0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +118,7 @@ Global
 		{89C86E96-1200-4874-808F-433D066CBFBF} = {F9BA1F59-D637-431C-9D02-A6CF5D56716C}
 		{D37DFEFD-0A97-41DE-8971-367A9B5006F2} = {F9BA1F59-D637-431C-9D02-A6CF5D56716C}
 		{FB6F7F1D-B919-4C96-BA11-80E986B85301} = {F9BA1F59-D637-431C-9D02-A6CF5D56716C}
+		{B16594C2-DA23-4E6C-BCCF-54AD4A4BBF0E} = {E2B41F84-FBF7-4FA6-B2A7-DE7CD7A9FDAC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {466B5FB4-5042-47DD-A6AB-4F6E6216DAC5}

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="RabbitMQ\EventBusRabbitMQ.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="RabbitMQ\" />
     <Folder Include="Repositories\" />
@@ -19,6 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
   </ItemGroup>
 
   <ItemGroup>

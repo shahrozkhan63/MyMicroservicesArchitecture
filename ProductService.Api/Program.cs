@@ -1,5 +1,10 @@
+using EventBus.Interfaces;
+using EventBus.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
+using ProductService.Api.Handlers;
+using ProductService.Domain.Interfaces;
 using ProductService.Infrastructure.Data;
+using ProductService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +17,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Register repositories
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Register RabbitMQ Event Bus
+builder.Services.AddSingleton<IEventBus>(sp => new RabbitMQEventBus("amqp://guest:guest@localhost:5672"));
+
+// Register the event handler
+builder.Services.AddSingleton<OrderEventHandler>();
+// Configure the web host to use specific URLs
+builder.WebHost.UseUrls("http://localhost:5002", "https://localhost:44363");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
