@@ -1,24 +1,32 @@
-# Use the ASP.NET Core runtime as the base image
+# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+# This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081
 
-# Use the SDK image for building the project
+
+# This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
-COPY ["ProductService/ProductService.Api/ProductService.Api.csproj", "ProductService/ProductService.Api/"]
-RUN dotnet restore "ProductService/ProductService.Api/ProductService.Api.csproj"
-
-# Copy the rest of the application source code
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["ProductService.Api/ProductService.Api.csproj", "ProductService.Api/"]
+COPY ["EventBus/EventBus.csproj", "EventBus/"]
+COPY ["ProductService.Infrastructure/ProductService.Infrastructure.csproj", "ProductService.Infrastructure/"]
+COPY ["ProductService.Domain/ProductService.Domain.csproj", "ProductService.Domain/"]
+RUN dotnet restore "./ProductService.Api/ProductService.Api.csproj"
 COPY . .
-WORKDIR "/app/ProductService/ProductService.Api"
-RUN dotnet build "ProductService.Api.csproj" -c Release -o /app/build
+WORKDIR "/src/ProductService.Api"
+RUN dotnet build "./ProductService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Publish the application
+# This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
-RUN dotnet publish "ProductService.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./ProductService.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Final stage for the runtime image
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

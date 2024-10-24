@@ -1,39 +1,47 @@
-
-
+version: '3.8'
 services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "15673:15672"  # Host port 15673 mapped to RabbitMQ management UI port 15672
+      - "5673:5672"    # Host port 5673 mapped to RabbitMQ AMQP port 5672
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
 
-  orderservice:
-    build:
-      context: ./OrderService.Api
-      dockerfile: Dockerfile
-    ports:
-      - "5001:80"
-    depends_on:
-      - rabbitmq
-
-  productservice:
-    build:
-      context: ./ProductService.Api
-      dockerfile: Dockerfile
-    ports:
-      - "5002:80"
-    depends_on:
-      - rabbitmq
-
   apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
     build:
-      context: ./ApiGateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ApiGateway/Dockerfile
     ports:
-      - "5000:80"
+      - "8080:8080"  # Host port 8080 mapped to internal port 8080 (for consistency across all services)
+    environment:
+      - ASPNETCORE_URLS=http://+:8080  # Make sure to bind to port 8080 explicitly
     depends_on:
-      - orderservice
-      - productservice
+      - orderservice.api
+      - productservice.api
+
+  productservice.api:
+    image: ${DOCKER_REGISTRY-}productserviceapi
+    build:
+      context: .
+      dockerfile: ProductService.Api/Dockerfile
+    ports:
+      - "8081:8081"  # Host port 8081 mapped to internal port 8081
+    environment:
+      - ASPNETCORE_URLS=http://+:8081  # Ensure the service binds to port 8081
+    depends_on:
+      - rabbitmq
+
+  orderservice.api:
+    image: ${DOCKER_REGISTRY-}orderserviceapi
+    build:
+      context: .
+      dockerfile: OrderService.Api/Dockerfile
+    ports:
+      - "8082:8082"  # Host port 8082 mapped to internal port 8082 for OrderService API
+    environment:
+      - ASPNETCORE_URLS=http://+:8082  # Ensure the service binds to port 8082
+    depends_on:
+      - rabbitmq

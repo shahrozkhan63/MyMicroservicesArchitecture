@@ -18,6 +18,7 @@ builder.Services.AddOcelot();
 builder.Services.AddHttpClient(); // Register IHttpClientFactory
 builder.Services.AddControllers().AddNewtonsoftJson(); // If you need JSON serialization support
 
+builder.WebHost.UseUrls("http://localhost:5000");
 var app = builder.Build();
 
 
@@ -29,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -8,17 +8,17 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5006"
+      "applicationUrl": "http://localhost:8080"
     },
-    "https": {
-      "commandName": "Project",
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "http://{ServiceHost}:{ServicePort}/swagger", // Use only HTTP here
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_URLS": "http://+:8080" // Bind to all network interfaces on port 8080
       },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7128;http://localhost:5006"
+      "publishAllPorts": true,
+      "useSSL": false // Disable SSL (useSSL: false)
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -27,18 +27,18 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    },
-    "Container (Dockerfile)": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
-      "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
-      },
-      "publishAllPorts": true,
-      "useSSL": true
     }
+    //"Container (Dockerfile)": {
+    //  "commandName": "Docker",
+    //  "launchBrowser": true,
+    //  "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+    //  "environmentVariables": {
+    //    "ASPNETCORE_HTTPS_PORTS": "8081",
+    //    "ASPNETCORE_HTTP_PORTS": "8080"
+    //  },
+    //  "publishAllPorts": true,
+    //  "useSSL": true
+    //}
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {

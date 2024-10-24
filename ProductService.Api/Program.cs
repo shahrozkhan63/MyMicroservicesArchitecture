@@ -21,12 +21,12 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 // Register RabbitMQ Event Bus
-builder.Services.AddSingleton<IEventBus>(sp => new RabbitMQEventBus("amqp://guest:guest@localhost:5672"));
+builder.Services.AddSingleton<IEventBus>(sp => new RabbitMQEventBus("amqp://guest:guest@localhost:5673"));
 
 // Register the event handler
 builder.Services.AddSingleton<OrderEventHandler>();
 // Configure the web host to use specific URLs
-builder.WebHost.UseUrls("http://localhost:5002", "https://localhost:44363");
+builder.WebHost.UseUrls("http://localhost:8081"); //, "https://localhost:44363"
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

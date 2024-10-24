@@ -3,7 +3,6 @@ using EventBus.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Domain.Interfaces;
 using OrderService.Infrastructure.Data;
-using OrderService.Infrastructure.RabbitMQ;
 using OrderService.Infrastructure.Repositories; // Ensure this is included for OrderDbContext
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +22,10 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 // Register RabbitMQ
 //builder.Services.AddSingleton(new EventBusRabbitMQ(builder.Configuration["RabbitMqUri"]));
-builder.Services.AddSingleton<IEventBus>(sp => new RabbitMQEventBus("amqp://guest:guest@localhost:5672"));
+builder.Services.AddSingleton<IEventBus>(sp => new RabbitMQEventBus("amqp://guest:guest@localhost:5673"));
 
 // Configure the web host to use specific URLs
-builder.WebHost.UseUrls("http://localhost:5001", "https://localhost:44362");
+builder.WebHost.UseUrls("http://localhost:8082"); //, "https://localhost:44362"
 
 var app = builder.Build();
 
@@ -37,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

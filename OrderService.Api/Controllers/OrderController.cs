@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using OrderService.Domain.Entities;
 using OrderService.Domain.Events;
 using OrderService.Domain.Interfaces;
-using OrderService.Infrastructure.RabbitMQ;
 using System.Threading.Tasks;
 
 namespace OrderService.Api.Controllers
