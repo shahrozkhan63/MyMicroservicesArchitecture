@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.Entities
 {
-    public class Order
+    public class OrderViewModel
     {
         public int OrderId { get; set; }
-        public DateTime OrderDate { get; set; }
-        public string CustomerName { get; set; }
 
-        // Navigation property for the many-to-many relationship
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public string? OrderNumber { get; set; }
+
+        public DateTime OrderDate { get; set; }
+
+        public string CustomerName { get; set; } = null!;
+
+        public virtual ICollection<OrderItemViewModel> OrderItems { get; set; } = new List<OrderItemViewModel>();
     }
 
 }

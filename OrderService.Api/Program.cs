@@ -25,7 +25,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<IEventBus>(sp => new RabbitMQEventBus("amqp://guest:guest@localhost:5673"));
 
 // Configure the web host to use specific URLs
-builder.WebHost.UseUrls("http://localhost:8082"); //, "https://localhost:44362"
+//builder.WebHost.UseUrls("http://localhost:8082"); //, "https://localhost:44362"
 
 var app = builder.Build();
 
@@ -33,7 +33,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order API V1");
+        c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+    });
 }
 
 //app.UseHttpsRedirection();

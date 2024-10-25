@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderService.Domain.Entities
 {
-    public class OrderItem
+    public class OrderItemViewModel
     {
         public int OrderId { get; set; }
         
@@ -18,7 +18,7 @@ namespace OrderService.Domain.Entities
         // Optionally, store some additional product details
         public string ProductName { get; set; }    // Cached product name
         public decimal ProductPrice { get; set; }  // Cached product price
-        public Order Order { get; set; }
+        public OrderViewModel Order { get; set; }
     }
 
 

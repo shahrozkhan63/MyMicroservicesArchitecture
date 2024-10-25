@@ -15,7 +15,7 @@
       "launchBrowser": true,
       "launchUrl": "http://{ServiceHost}:{ServicePort}/swagger", // Use only HTTP here
       "environmentVariables": {
-        "ASPNETCORE_URLS": "http://+:8080" // Bind to all network interfaces on port 8080
+        "ASPNETCORE_URLS": "8080" // Bind to all network interfaces on port 8080
       },
       "publishAllPorts": true,
       "useSSL": false // Disable SSL (useSSL: false)

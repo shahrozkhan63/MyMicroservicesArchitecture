@@ -40,7 +40,7 @@ namespace OrderService.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(OrderViewModel order)
         {
             await _orderRepository.AddOrderAsync(order);
 
@@ -57,7 +57,7 @@ namespace OrderService.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(int id, Order order)
+        public async Task<IActionResult> UpdateOrder(int id, OrderViewModel order)
         {
             if (id != order.OrderId)
             {

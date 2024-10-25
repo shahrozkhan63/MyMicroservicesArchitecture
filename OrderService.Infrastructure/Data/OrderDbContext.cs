@@ -1,36 +1,57 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderService.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace OrderService.Infrastructure.Data
+namespace OrderService.Infrastructure.Data;
+
+public partial class OrderDbContext : DbContext
 {
-    public class OrderDbContext : DbContext
+    public OrderDbContext()
     {
-        public OrderDbContext(DbContextOptions<OrderDbContext> options)
-        : base(options)
-        {
-        }
-
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Configuring the composite primary key for OrderItem
-            modelBuilder.Entity<OrderItem>()
-                .HasKey(oi => new { oi.OrderId, oi.ProductId }); // Composite primary key
-
-            // Configuring the relationship between Order and OrderItem
-            modelBuilder.Entity<OrderItem>()
-                .HasOne(oi => oi.Order) // Each OrderItem belongs to one Order
-                .WithMany(o => o.OrderItems) // Each Order can have many OrderItems
-                .HasForeignKey(oi => oi.OrderId); // Foreign key in OrderItem
-
-            // Note: No foreign key configuration for ProductId, as Product is in another microservice
-        }
     }
+
+    public OrderDbContext(DbContextOptions<OrderDbContext> options)
+        : base(options)
+    {
+    }
+
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=TEMP7070;Initial Catalog=OrderServiceDB;User ID=sa;Password=mis@123;MultipleActiveResultSets=True;TrustServerCertificate=Yes");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCFFF66D90B");
+
+            entity.ToTable("Order");
+
+            entity.Property(e => e.CustomerName).HasMaxLength(100);
+            entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.OrderNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.ToTable("OrderItem");
+
+            entity.Property(e => e.ProductName).HasMaxLength(100);
+            entity.Property(e => e.ProductPrice).HasColumnType("decimal(18, 2)");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("FK_OrderItem_Order");
+        });
+
+        OnModelCreatingPartial(modelBuilder);
+    }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
