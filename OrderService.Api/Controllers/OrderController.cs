@@ -21,6 +21,8 @@ namespace OrderService.Api.Controllers
             _eventBusShared = eventBusShared;
         }
 
+        
+        [Route("GetOrders")]
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
@@ -28,7 +30,9 @@ namespace OrderService.Api.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("{id}")]
+        
+        [Route("GetOrders({id:int})")]
+        [HttpGet]
         public async Task<IActionResult> GetOrder(int id)
         {
             var order = await _orderRepository.GetOrderByIdAsync(id);
@@ -39,6 +43,8 @@ namespace OrderService.Api.Controllers
             return Ok(order);
         }
 
+       
+        [Route("CreateOrder")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder(OrderViewModel order)
         {
@@ -56,7 +62,9 @@ namespace OrderService.Api.Controllers
             return CreatedAtAction(nameof(GetOrder), new { id = order.OrderId }, order);
         }
 
-        [HttpPut("{id}")]
+     
+        [Route("UpdateOrder")]
+        [HttpPut]
         public async Task<IActionResult> UpdateOrder(int id, OrderViewModel order)
         {
             if (id != order.OrderId)
@@ -68,7 +76,8 @@ namespace OrderService.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [Route("DeleteOrder/{id:int}")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             await _orderRepository.DeleteOrderAsync(id);
